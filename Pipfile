@@ -1,0 +1,40 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+cython = "*"
+sqlalchemy = "<2.0.0"
+alembic = "*"
+pyyaml = "*"
+flask = "*"
+requests = "*"
+mysqlclient = "*"
+passlib = "*"
+mypy = "*"
+black = "*"
+typing-extensions = "*"
+types-python-dateutil = "*"
+types-requests = "*"
+types-pyyaml = "*"
+types-werkzeug = "*"
+types-flask = "*"
+types-freezegun = "*"
+flake8 = "==4.0.1"
+typed-ast = "*"
+freezegun = "*"
+pyreact = "*"
+flask-caching = "*"
+blinker = "*"
+pycryptodome = "*"
+jaconv = "*"
+pefile = "*"
+pillow = "*"
+discord-webhook = "*"
+iced-x86 = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"

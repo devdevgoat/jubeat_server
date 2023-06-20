@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block scripts %}
+    <script defer type="text/javascript" defer="defer" src="{{ url_for('jsx', filename=reactbase) }}?{{ cache_bust }}"></script>
+{% endblock %}
+{% block content %}
+    <div id="content">
+        <div class="loading">
+            <img src="{{ url_for('static', filename=assets + 'loading-24.gif') }}" />
+        </div>
+    </div>
+{% endblock %}

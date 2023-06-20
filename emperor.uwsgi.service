@@ -1,0 +1,19 @@
+[Unit]
+Description=uWSGI Emperor
+After=syslog.target
+
+[Service]
+# Don't store your emperor.ini file in same foldee where uwsgi is watching
+# will crash the server when it runs out of memory
+ExecStart=/usr/bin/uwsgi --ini /opt/ju_services/emperor.ini
+# Requires systemd version 211 or newer
+RuntimeDirectory=uwsgi
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+User=www-data
+Group=www-data
+[Install]
+WantedBy=multi-user.target

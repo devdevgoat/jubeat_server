@@ -1,0 +1,20 @@
+; This skeleton is used to generate app specific ini files
+; found in this folder. changes in any of these files results in changes to
+; all of them, only edit _app.skel if you need to make changes 
+; https://uwsgi-docs.readthedocs.io/en/latest/Configuration.html#magicvars
+[uwsgi]
+python-path = /opt/ju_services/venv/bin/python
+plugins = python3
+socket = /run/uwsgi/%n.sock
+;socket = /opt/ju_services/sockets/%n.sock
+
+processes = 4
+threads = 2
+
+virtualenv = /opt/ju_services/venv
+chdir = /opt/ju_services/bemaniutils
+wsgi-file = /opt/ju_services/uwsgi/%n.wsgi
+callable = app
+chomd-socket=777
+gid = www-data
+uid = www-data

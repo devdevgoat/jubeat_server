@@ -1,0 +1,105 @@
+# Core database settings, required so that the system can persist scores and accounts.
+database:
+    # IP or DNS entry for MySQL instance.
+    address: "192.168.86.33"
+    # Database that will be used.
+    database: "bemani"
+    # User who has full credentials to the above DB.
+    user: "bemani"
+    # Password of said user.
+    password: "bemani"
+    # Force the network to read-only mode, refusing to write to the DB
+    # except for creating/destroying frontend sessions to enable login.
+    # Set this to False or delete this to run in production mode.
+    read_only: False
+
+# Core server settings, required so that the backend knows what to tell games for core
+# routing and server URLs.
+server:
+    # Advertised server IP or DNS entry games will connect to.
+    address: "192.168.86.36"
+    # Advertised keepalive address, must be globally pingable. Delete
+    # this to use the address above instead of a unique keepalive address.
+    keepalive: "127.0.0.1"
+    # What port on the above address games will connect to.
+    port: 80
+    # Whether games should connect over HTTPS.
+    https: False
+    # Advertised frontend URI. Delete this to mask the frontend address. "https://eagate.573.jp"
+    uri: 
+    # URI that users hitting the GET interface will be redirected to.
+    # Delete this to return an HTTP error instead of redirecting. "https://eagate.573.jp"
+    redirect: 
+    # Whether PCBIDs must be added to the network before games will work.
+    enforce_pcbid: False
+    # How many PCBIDs an arcade owner can grant to themselves on the arcade
+    # page. Note that this setting is irrelevant if PCBID enforcing is off.
+    # Set to 0 or delete this setting to disable self-granting PCBIDs.
+    pcbid_self_grant_limit: 0
+    # Default region for this network (set to USA by default). See RegionConstants
+    # for details on acceptible values. The range of accepted values is 1-56 matching
+    # the 56 normal regions found in RegionConstants, and 1000 for "Europe" and
+    # 2000 for "Other".
+    region: 56
+    # The custom area code displayed in the system settings menu on various games.
+    # Delete this setting to force games to display "Unobtained" instead.
+    area: "USA"
+
+# Webhook URLs. These allow for game scores from games with scorecard support to be broadcasted to outside services.
+# Delete this to disable this support.
+# webhooks:
+#     discord:
+#         iidx: 
+#         - "https://discord.com/api/webhooks/1232122131321321321/eauihfafaewfhjaveuijaewuivhjawueihoi"
+#         pnm: 
+#         - "https://discord.com/api/webhooks/1232122131321321321/eauihfafaewfhjaveuijaewuivhjawueihoi"
+
+# Assets URLs. These allow for in-game asset rendering on the front end. Delete this to disable asset rendering.
+# assets:
+#     jubeat:
+#         emblems: "/directory/where/you/output/emblem/assets"
+
+# Global PASESLI settings, which can be overridden on a per-arcade basis. These form the default settings.
+paseli:
+    # Whether PASELI is enabled on the network.
+    enabled: True
+    # Whether infinite PASELI balance is enabled on the network.
+    infinite: True
+
+# Game series to provide support for. Disabling something here hides it from the frontend and makes the backend
+# ignore games coming from that series.
+support:
+    # Bishi Bashi frontend/backend enabled.
+    bishi: False
+    # Metal Gear Arcade frontend/backend enabled
+    mga: False
+    # DDR frontend/backend enabled
+    ddr: False
+    # IIDX frontend/backend enabled.
+    iidx: False
+    # Jubeat frontend/backend enabled.
+    jubeat: True
+    # Museca frontend/backend enabled.
+    museca: False
+    # Pop'n Music frontend/backend enabled.
+    pnm: False
+    # Reflec Beat frontend/backend enabled.
+    reflec: False
+    # SDVX frontend/backend enabled.
+    sdvx: False
+
+# Key used to encrypt cookies, should be unique per network instance.
+secret_key: 'buymoregme'
+# Name of this network.
+name: 'DevDevGoat Network'
+# Administrative contact for this network.
+email: 'nobody@nowhere.com'
+# Cache DIR, should point somewhere other than /tmp for production instances.
+cache_dir: '/tmp'
+# Number of seconds to preserve event logs before deleting them.
+# Set to zero or delete to disable deleting logs.
+event_log_duration: 2592000
+# Whether we log verbosely (full packet request and response) to web server logs or not.
+verbose: true
+# Frontend theme directory where sitewide CSS and favicon should be found.
+theme: "default"

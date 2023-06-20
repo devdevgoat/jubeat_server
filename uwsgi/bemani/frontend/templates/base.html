@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		{% if title %}
+		<title>{{ title }}</title>
+		{% endif %}
+        <link rel="icon" type="image/png" href="{{ theme_url('favicon.png') }}?{{ cache_bust }}" />
+        <link rel="stylesheet" type="text/css" href="{{ theme_url('site.css') }}?{{ cache_bust }}" />
+        <link rel="stylesheet" type="text/css" href="{{ theme_url('color.css') }}?{{ cache_bust }}" />
+        <link rel="stylesheet" type="text/css" href="{{ theme_url('form.css') }}?{{ cache_bust }}" />
+        <link rel="stylesheet" type="text/css" href="{{ theme_url('section.css') }}?{{ cache_bust }}" />
+        <link rel="stylesheet" type="text/css" href="{{ theme_url('table.css') }}?{{ cache_bust }}" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='jquery-confirm.css') }}?{{ cache_bust }}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="{{ url_for('static', filename='chart.bundle.min.js') }}?{{ cache_bust }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='date.format.min.js') }}?{{ cache_bust }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.12.4.min.js') }}?{{ cache_bust }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='jquery-confirm.js') }}?{{ cache_bust }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='jquery.touchSwipe.min.js') }}?{{ cache_bust }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='tinynav.js') }}?{{ cache_bust }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='classnames.min.js') }}?{{ cache_bust }}"></script>
+        <script defer type="text/javascript" src="{{ url_for('static', filename='react.min.js') }}?{{ cache_bust }}"></script>
+        <script defer type="text/javascript" src="{{ url_for('static', filename='react-dom.min.js') }}?{{ cache_bust }}"></script>
+        <script defer type="text/javascript" src="{{ url_for('static', filename='create-react-class.min.js') }}?{{ cache_bust }}"></script>
+        <script defer type="text/javascript" src="{{ url_for('static', filename='ajax.js') }}?{{ cache_bust }}"></script>
+        <script defer type="text/javascript" src="{{ url_for('static', filename='messages.js') }}?{{ cache_bust }}"></script>
+        <script defer type="text/javascript" src="{{ url_for('static', filename='history.js') }}?{{ cache_bust }}"></script>
+        <script defer type="text/javascript" src="{{ url_for('static', filename='iidx-options.js') }}?{{ cache_bust }}"></script>
+        <script defer type="text/javascript" src="{{ url_for('static', filename='ddr-options.js') }}?{{ cache_bust }}"></script>
+        <script defer type="text/javascript" src="{{ url_for('static', filename='link.js') }}?{{ cache_bust }}"></script>
+        <script defer type="text/javascript" src="{{ url_for('static', filename='merge.js') }}?{{ cache_bust }}"></script>
+        {% for entry in components %}
+            <script defer type="text/javascript" src="{{ url_for('jsx', filename=entry) }}?{{ cache_bust }}"></script>
+        {% endfor %}
+        {% block scripts %}{% endblock %}
+	</head>
+	<body>
+        {% if show_navigation %}
+        <div class="navigation">
+            <ul class="navigation" id="nav">
+                {% for entry in navigation %}
+                    <li class="{{
+                        'right' if entry.get('right_justify') else 'left' }}
+                        {{ 'selected' if entry['uri'] == current_path or ((current_path.startswith(entry.get('base_uri', '/nonexistent') or '/nonexistent')) and not (any(entry.get('entries'), 'uri', current_path))) else ''
+                    }}">
+                        {% with uri = entry.get('uri') %}
+                            {% with label = entry.get('label') %}
+                                {% if label %}
+                                    {% if uri %}
+                                    <a
+                                        class="{{ 'current' if (entry['uri'] == current_path) or (any(entry.get('entries'), 'uri', current_path)) or (current_path.startswith(entry.get('base_uri', '/nonexistent') or '/nonexistent')) else ''}} {{entry['gamecode']}} border"
+                                        href="{{ entry['uri'] }}"
+                                    >{{ entry['label'] }}</a>
+                                    {% else %}
+                                    <a
+                                        class="cursor {{ 'current' if (entry['uri'] == current_path) or (any(entry.get('entries'), 'uri', current_path)) or (current_path.startswith(entry.get('base_uri', '/nonexistent') or '/nonexistent')) else ''}} {{entry['gamecode']}} border"
+                                    >{{ entry['label'] }}</a>
+                                    {% endif %}
+                                {% else %}
+                                    <div class="separator">&nbsp;</div>
+                                {% endif %}
+                            {% endwith %}
+                        {% endwith %}
+                        {% with subentries = entry.get('entries') %}
+                            {% if subentries %}
+                                <ul class="navigation_sub">
+                                    {% for subentry in subentries %}
+                                        <li class="{{ 'selected' if subentry['uri'] == current_path else '' }}">
+                                            <a
+                                                class="{{ 'current' if (subentry['uri'] == current_path) else '' }}"
+                                                href="{{ subentry['uri'] }}"
+                                            >{{ subentry['label'] }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        {% endwith %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        <div class="messages-anchor"></div>
+        <div class="messages">
+            <ul class="messages">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                        <li class="{{ category }}">
+                            {{ message }}
+                            <div class="close">&#10005;</div>
+                        </li>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </ul>
+        </div>
+        <div class="container">
+    	    {% block content %}{% endblock %}
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $("#nav").tinyNav();
+            });
+        </script>
+        <script type="text/javascript">
+            window.floaterrors = function(skipheightadjust) {
+                if($(this).scrollTop()>$('div.messages-anchor').position().top){
+                    if (!window.floated) {
+                        var width = $('div.messages').width();
+                        var height = $('div.messages').height();
+                        if (height > 0) {
+                            $('div.messages').css({position:'fixed',top:0, width: width, 'z-index': 1});
+                            if (skipheightadjust) {
+                                $('div.messages-anchor').css({height: ''});
+                            } else {
+                                $('div.messages-anchor').css({height: height + 10});
+                            }
+                            window.floated = true;
+                        }
+                    }
+                } else {
+                    $('div.messages').css({position:'', width: '', top: ''});
+                    $('div.messages-anchor').css({height: ''});
+                    window.floated = false;
+                }
+            };
+            $(window).scroll(function() { window.floaterrors(false); });
+            $(document).on('click', 'div.close', function(event) {
+                $(event.target).parent().hide();
+                if (window.floated) {
+                    var height = $('div.messages').height();
+                    if (height > 0) {
+                        $('div.messages-anchor').css({height: height + 10});
+                    } else {
+                        $('div.messages-anchor').css({height: ''});
+                    }
+                }
+            });
+        </script>
+        <script type="text/javascript">
+            window.uris = {};
+            {% if links is defined %}
+                {% for name, link in links.items() %}
+                    window.uris[{{name|tojson|safe}}] = {{ link|tojson|safe }};
+                {% endfor %}
+            {% endif %}
+            {% if inits is defined %}
+                {% for name, val in inits.items() %}
+                    window.{{name}} = {{ val|tojson|safe }};
+                {% endfor %}
+            {% endif %}
+            window.assets = {{ assets|tojson|safe }};
+        </script>
+        <script type="text/javascript">
+            $(function () {
+                if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                    $(".container").swipe(
+                        {
+                            swipeLeft: function(event) {
+                                $("button.next").trigger("click");
+                                event.preventDefault();
+                            },
+                            swipeRight: function(event) {
+                                $("button.prev").trigger("click");
+                                event.preventDefault();
+                            },
+                            threshold: 30,
+                            fingers: 'all',
+                        }
+                    );
+                }
+            });
+        </script>
+	</body>
+</html>
