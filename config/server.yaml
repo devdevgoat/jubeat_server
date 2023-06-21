@@ -22,7 +22,7 @@ server:
     # this to use the address above instead of a unique keepalive address.
     keepalive: "127.0.0.1"
     # What port on the above address games will connect to.
-    port: 80
+    port: 5730
     # Whether games should connect over HTTPS.
     https: False
     # Advertised frontend URI. Delete this to mask the frontend address. "https://eagate.573.jp"

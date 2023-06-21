@@ -18,3 +18,4 @@ callable = app
 chomd-socket=777
 gid = www-data
 uid = www-data
+logto=/tmp/%n.log

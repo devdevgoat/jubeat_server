@@ -29,4 +29,7 @@
 3. Copy local /config/server.yaml to /opt/ju_services/bemaniutils/bemani/wsgi, this bc the wsgi's in the repo use a relative import and this is easier than updated 3 files
 
 
-ln -sf /etc/systemd/system
+# Notes
+
+- NGINX Error means the uwsgi isn't running, or the socket file doesn't have the correct permissions
+- Services OK but the game doen't connect? The server file defaults to port 80 but suggest 5730 in the services run command, also I prefer 80 for the front end app, so change the server.yaml port number to 5730 and restart emperor.
